@@ -1,20 +1,27 @@
 package com.example.demo.Controller;
 
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.Dao.TaiKhoanDao;
+import com.example.demo.Entity.TaiKhoan;
+
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("/api/hello")
+@RequestMapping("/api/taikhoan")
+@RequiredArgsConstructor
 public class HelloController {
 
-    // GET: /api/hello
+    private final TaiKhoanDao taiKhoanDao; // KHÔNG gán = null
+
     @GetMapping
-    public String getHello() {
-        return "Hello from GET!";
+    public List<TaiKhoan> getAllTaiKhoan() {
+        return taiKhoanDao.findAll();
     }
 
-    // POST: /api/hello
-    @PostMapping
-    public String postHello(@RequestBody String name) {
-        return "Hello, " + name + "!";
+    @GetMapping("/{id}")
+    public TaiKhoan getTaiKhoanById(@PathVariable Integer id) {
+        return taiKhoanDao.findById(id).orElse(null);
     }
 }

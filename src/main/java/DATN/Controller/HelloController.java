@@ -1,11 +1,10 @@
-package com.example.demo.Controller;
+package DATN.Controller;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.Dao.TaiKhoanDao;
-import com.example.demo.Entity.TaiKhoan;
-
+import DATN.Dao.TaiKhoanDao;
+import DATN.Entity.TaiKhoan;
 import lombok.RequiredArgsConstructor;
 
 @RestController

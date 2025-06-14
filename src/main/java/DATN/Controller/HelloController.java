@@ -1,7 +1,11 @@
 package DATN.Controller;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import DATN.Dao.TaiKhoanDao;
 import DATN.Entity.TaiKhoan;
@@ -21,6 +25,6 @@ public class HelloController {
 
     @GetMapping("/{id}")
     public TaiKhoan getTaiKhoanById(@PathVariable Integer id) {
-        return taiKhoanDao.findById(id).orElse(null);
+        return  taiKhoanDao.findById(id).orElse(null);
     }
 }

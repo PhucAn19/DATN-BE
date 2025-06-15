@@ -1,4 +1,5 @@
-package DATN.Entity;
+package DATN.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;

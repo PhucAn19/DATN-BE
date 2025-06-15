@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import DATN.DTO.SAN_PHAM_DTO;
-import DATN.Dao.sanpham.SAN_PHAM_DAO;
+
+import DATN.dao.sanpham.SAN_PHAM_DAO;
+import DATN.dto.SAN_PHAM_DTO;
 import DATN.entity.sanpham.SAN_PHAM;
 import DATN.entity.sanpham.VIEW_CHI_TIET_SAN_PHAM;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class SAN_PHAM_API {
 
     private final SAN_PHAM_DAO dao;
     private final DATN.service.SAN_PHAM_SER SAN_PHAM_SER;
-    private final DATN.Dao.view.VIEW_CHI_TIET_SAN_PHAM_DAO VIEW_CHI_TIET_SAN_PHAM_DAO;
+    private final DATN.dao.view.VIEW_CHI_TIET_SAN_PHAM_DAO VIEW_CHI_TIET_SAN_PHAM_DAO;
 
     @GetMapping("/api/sanpham")
     public List<SAN_PHAM> getAllTaiKhoan() {

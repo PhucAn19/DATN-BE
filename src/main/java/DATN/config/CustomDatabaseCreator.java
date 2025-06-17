@@ -3,14 +3,16 @@ package DATN.config;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class CustomDatabaseCreator {
 
     public static void createDatabaseIfNotExists() {
         String masterUrl = "jdbc:sqlserver://localhost:1433;databaseName=master;encrypt=false;";
-        String username = "DEV_BACKEND";
-        String password = "DEV";
+        String username = "sa";
+        String password = "123";
 
         // Kết nối tới master để thực thi toàn bộ SQL (cả tạo DB, user, bảng...)
         try (Connection conn = DriverManager.getConnection(masterUrl, username, password);

@@ -1,14 +1,14 @@
 USE master;
 GO
 
+-- TẠO DATABASE NẾU CHƯA CÓ
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'DATN_WebBHDT')
 BEGIN
     CREATE DATABASE DATN_WebBHDT;
 END
 GO
 
-
--- TẠO LOGIN Ở CẤP SERVER
+-- TẠO LOGIN Ở CẤP SERVER NẾU CHƯA CÓ
 IF NOT EXISTS (SELECT * FROM sys.sql_logins WHERE name = 'DEV_BACKEND')
 BEGIN
     CREATE LOGIN DEV_BACKEND 
@@ -21,16 +21,33 @@ GO
 USE DATN_WebBHDT;
 GO
 
--- TẠO USER TRONG DATABASE + GÁN LOGIN
-IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'DEV_BACKEND')
+-- TẠO USER TỪ LOGIN CHỈ KHI CHƯA TỒN TẠI ÁNH XẠ
+IF NOT EXISTS (
+    SELECT * 
+    FROM sys.database_principals
+    WHERE sid = SUSER_SID('DEV_BACKEND')
+)
 BEGIN
     CREATE USER DEV_BACKEND FOR LOGIN DEV_BACKEND;
 END
 GO
 
--- CẤP QUYỀN
-EXEC sp_addrolemember 'db_owner', 'DEV_BACKEND';
-GO
+-- GÁN ROLE db_owner CHỈ KHI USER 'DEV_BACKEND' TỒN TẠI
+IF EXISTS (
+    SELECT * FROM sys.database_principals WHERE name = 'DEV_BACKEND'
+)
+BEGIN
+    IF NOT EXISTS (
+        SELECT * 
+        FROM sys.database_role_members drm
+        JOIN sys.database_principals r ON drm.role_principal_id = r.principal_id
+        JOIN sys.database_principals u ON drm.member_principal_id = u.principal_id
+        WHERE r.name = 'db_owner' AND u.name = 'DEV_BACKEND'
+    )
+    BEGIN
+        EXEC sp_addrolemember 'db_owner', 'DEV_BACKEND';
+    END
+END
 
 
 

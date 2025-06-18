@@ -1,4 +1,4 @@
-package DATN.Dao.view;
+package DATN.dao.view;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

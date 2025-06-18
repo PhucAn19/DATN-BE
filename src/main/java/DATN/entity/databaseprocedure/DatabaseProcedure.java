@@ -1,4 +1,4 @@
-package DATN.entity.DatabaseProcedure;
+package DATN.entity.databaseprocedure;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

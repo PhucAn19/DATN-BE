@@ -2,8 +2,8 @@ package DATN.service;
 
 import org.springframework.stereotype.Service;
 
-import DATN.DTO.SAN_PHAM_DTO;
-import DATN.Dao.pro.DatabaseProcedureDAO;
+import DATN.dao.procdure.DatabaseProcedureDAO;
+import DATN.dto.SAN_PHAM_DTO;
 import lombok.RequiredArgsConstructor;
 
 @Service

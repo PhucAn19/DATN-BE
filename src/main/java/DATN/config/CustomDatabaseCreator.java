@@ -31,7 +31,7 @@ public class CustomDatabaseCreator {
         String masterUrl = "jdbc:sqlserver://localhost:1433;databaseName=master;encrypt=false;";
 
         try (Connection conn = DriverManager.getConnection(masterUrl, username, password);
-             Statement stmt = conn.createStatement()) {
+                Statement stmt = conn.createStatement()) {
 
             String sqlScript = readSqlFile("/database/DATN_WebBHDT.sql");
 

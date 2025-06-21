@@ -1,5 +1,6 @@
 package DATN.controller;
 
+import DATN.entity.TaiKhoan;
 import DATN.service.TaiKhoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,15 @@ public class LoginController {
     public ResponseEntity<?> dangXuat(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok(Map.of("message", "Đăng xuất thành công"));
+    }
+    @PostMapping("/dangky")
+    public ResponseEntity<?> register(@RequestBody TaiKhoan taiKhoan) {
+        Map<String, Object> response = taiKhoanService.register(taiKhoan);
+        if ("Đăng ký thành công".equals(response.get("message"))) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @GetMapping("/kiem-tra-phien")

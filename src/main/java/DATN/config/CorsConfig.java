@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Cho phép tất cả endpoint
-                        .allowedOrigins("http://localhost:4000") // Thay đúng URL của frontend 
+                        .allowedOrigins("http://localhost:5173") // Thay đúng URL của frontend 
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Các method được phép
                         .allowedHeaders("*") // Cho phép tất cả header
                         .allowCredentials(true); // Cho phép gửi cookie/token

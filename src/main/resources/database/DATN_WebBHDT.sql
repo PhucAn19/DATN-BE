@@ -398,7 +398,7 @@ GO
 IF NOT EXISTS (SELECT 1 FROM TAI_KHOAN WHERE email = N'admin@shop.com')
 BEGIN
     INSERT INTO TAI_KHOAN (tendangnhap, matkhau, vaitro, hoveten, sodienthoai, email, trangthai, ngaytao)
-    VALUES (N'admin', N'admin123', 1, N'Quản trị viên', '0909999999', N'admin@shop.com', 0, GETDATE());
+    VALUES (N'admin', N'admin123', 1, N'Quản trị viên', '0909999999', N'admin@shop.com', 1, GETDATE());
 END;
 
 IF NOT EXISTS (SELECT 1 FROM TAI_KHOAN WHERE email = N'testuser@email.com')

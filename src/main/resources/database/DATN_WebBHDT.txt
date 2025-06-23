@@ -1,6 +1,4 @@
-﻿-- XÓA VÀ TẠO LẠI DATABASE
-USE master;
-ALTER DATABASE DATN_WebBHDT SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+﻿USE master;
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'DATN_WebBHDT')
 BEGIN
     DROP DATABASE DATN_WebBHDT;
@@ -81,7 +79,21 @@ GO
 CREATE TABLE SP_THONG_SO(
 	id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	sanpham INT NOT NULL,
-	thongso NVARCHAR(255) NOT NULL,
+	cpu_brand NVARCHAR(255) NOT NULL,
+	cpu_model NVARCHAR(255) NOT NULL,
+	cpu_type NVARCHAR(255) NOT NULL,
+	cpu_min_speed NVARCHAR(255) NOT NULL,
+	cpu_max_speed NVARCHAR(255) NOT NULL,
+	cpu_cores NVARCHAR(255) NOT NULL,
+	cpu_threads NVARCHAR(255) NOT NULL,
+	cpu_cache NVARCHAR(255) NOT NULL,
+	gpu_brand NVARCHAR(255) NOT NULL,
+	gpu_model NVARCHAR(255) NOT NULL,
+	gpu_full_name NVARCHAR(255) NOT NULL,
+	gpu_memory NVARCHAR(255) NOT NULL,
+	ram NVARCHAR(255) NOT NULL,
+	storage NVARCHAR(255) NOT NULL,
+	screen NVARCHAR(255) NOT NULL,
 	mausac NVARCHAR(255) NOT NULL,
 	soluong INT DEFAULT 0 CHECK (soluong>= 0) NOT NULL,
 );
@@ -240,54 +252,57 @@ FOREIGN KEY (taikhoan) REFERENCES TAI_KHOAN(id);
 GO
 /*===== TRIGGER =====*/
 /*===== PROC =====*/
--- 
+-- DATN_CRE_SP_DB00001_0
 CREATE PROCEDURE DATN_CRE_SP_DB00001_0
-	@tensanpham NVARCHAR(255),
-	@dongia BIGINT,
-	@loai INT,
-	@thuonghieu INT,
-	@anhgoc NVARCHAR(255),
-	@thongso NVARCHAR(255),
-	@mausac NVARCHAR(255),
-	@soluong INT,
-	@anhphu NVARCHAR(255)
+    @tensanpham NVARCHAR(255),
+    @dongia BIGINT,
+    @loai INT,
+    @thuonghieu INT,
+    @anhgoc NVARCHAR(255),
+    @cpu_brand NVARCHAR(255),
+    @cpu_model NVARCHAR(255),
+    @cpu_type NVARCHAR(255),
+    @cpu_min_speed NVARCHAR(255),
+    @cpu_max_speed NVARCHAR(255),
+    @cpu_cores NVARCHAR(255),
+    @cpu_threads NVARCHAR(255),
+    @cpu_cache NVARCHAR(255),
+    @gpu_brand NVARCHAR(255),
+    @gpu_model NVARCHAR(255),
+    @gpu_full_name NVARCHAR(255),
+    @gpu_memory NVARCHAR(255),
+    @ram NVARCHAR(255),
+    @storage NVARCHAR(255),
+    @screen NVARCHAR(255),
+    @mausac NVARCHAR(255),
+    @soluong INT,
+    @anhphu NVARCHAR(255)
 AS
 BEGIN
-	SET NOCOUNT ON;
-	BEGIN TRY
-		BEGIN TRAN;
-		INSERT INTO SAN_PHAM (tensanpham, dongia, loai, thuonghieu, anhgoc)
-		VALUES (@tensanpham, @dongia, @loai, @thuonghieu, @anhgoc);
-		DECLARE @NewProductID INT = SCOPE_IDENTITY();
-		INSERT INTO SP_THONG_SO (sanpham, thongso, mausac, soluong)
-		VALUES (@NewProductID, @thongso, @mausac, @soluong);
-		INSERT INTO ANH_SP (sanpham, diachianh)
-		VALUES (@NewProductID, @anhphu);
-		COMMIT;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK;
-		THROW;
-	END CATCH
+    SET NOCOUNT ON;
+    BEGIN TRY
+        BEGIN TRAN;
+        INSERT INTO SAN_PHAM (tensanpham, dongia, loai, thuonghieu, anhgoc)
+        VALUES (@tensanpham, @dongia, @loai, @thuonghieu, @anhgoc);
+        DECLARE @NewProductID INT = SCOPE_IDENTITY();
+        INSERT INTO SP_THONG_SO (
+            sanpham, cpu_brand, cpu_model, cpu_type, cpu_min_speed, cpu_max_speed, cpu_cores, cpu_threads, cpu_cache,
+            gpu_brand, gpu_model, gpu_full_name, gpu_memory, ram, storage, screen, mausac, soluong
+        )
+        VALUES (
+            @NewProductID, @cpu_brand, @cpu_model, @cpu_type, @cpu_min_speed, @cpu_max_speed, @cpu_cores, @cpu_threads, @cpu_cache,
+            @gpu_brand, @gpu_model, @gpu_full_name, @gpu_memory, @ram, @storage, @screen, @mausac, @soluong
+        );
+        INSERT INTO ANH_SP (sanpham, diachianh)
+        VALUES (@NewProductID, @anhphu);
+        COMMIT TRAN;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRAN;
+        THROW;
+    END CATCH
 END;
 GO
-/*===== CHECK P1 =====*/
-SELECT * FROM TAI_KHOAN;
-SELECT * FROM DIA_CHI;
-SELECT * FROM SAN_PHAM;
-SELECT * FROM SP_LOAI;
-SELECT * FROM SP_THUONG_HIEU;
-SELECT * FROM SP_THONG_SO;
-SELECT * FROM ANH_SP;
-SELECT * FROM HOA_DON;
-SELECT * FROM HD_CHI_TIET;
-SELECT * FROM THANH_TOAN;
-SELECT * FROM GIO_HANG;
-SELECT * FROM GOP_Y;
-SELECT * FROM DANH_GIA;
-SELECT * FROM YEU_THICH;
-GO
-
 /*===== CHECK FOREIGN KEY =====*/
 SELECT 
     fk.name AS foreign_key_name,
@@ -325,7 +340,7 @@ FROM
 JOIN 
     sys.objects o ON t.parent_id = o.object_id
 WHERE 
-    t.is_ms_shipped = 0 -- Loại bỏ các trigger hệ thống
+    t.is_ms_shipped = 0
 ORDER BY 
     t.create_date DESC;
 GO
@@ -335,7 +350,15 @@ GO
 INSERT INTO TAI_KHOAN (tendangnhap, matkhau, vaitro, hoveten, sodienthoai, email, trangthai, ngaytao)
 VALUES 
 (N'admin', N'admin123', 1, N'Quản trị viên', '0909999999', N'admin@shop.com', 0, GETDATE()),
-(N'user', N'123456', 0, N'Nguyễn Văn A', '0908888888', N'testuser@email.com', 0, GETDATE());
+(N'user', N'123456', 0, N'Nguyễn Văn A', '0908888888', N'testuser@email.com', 0, GETDATE()),
+(N'user3', N'123456', 0, N'Nguyễn Văn C', '0900000003', N'user3@example.com', 0, GETDATE()),
+(N'user4', N'123456', 0, N'Trần Thị D', '0900000004', N'user4@example.com', 0, GETDATE()),
+(N'user5', N'123456', 0, N'Lê Văn E', '0900000005', N'user5@example.com', 0, GETDATE()),
+(N'user6', N'123456', 0, N'Phạm Thị F', '0900000006', N'user6@example.com', 0, GETDATE()),
+(N'user7', N'123456', 0, N'Hồ Văn G', '0900000007', N'user7@example.com', 0, GETDATE()),
+(N'user8', N'123456', 0, N'Đặng Thị H', '0900000008', N'user8@example.com', 0, GETDATE()),
+(N'user9', N'123456', 0, N'Bùi Văn I', '0900000009', N'user9@example.com', 0, GETDATE()),
+(N'user10', N'123456', 0, N'Vũ Thị J', '0900000010', N'user10@example.com', 0, GETDATE());
 GO
 -- DIA_CHI
 INSERT INTO DIA_CHI (taikhoan, diachi)
@@ -384,27 +407,76 @@ INSERT INTO SP_THUONG_HIEU (thuonghieu) VALUES
 (N'Huawei');
 GO
 -- DATN_CRE_SP_DB00001_0
-EXEC DATN_CRE_SP_DB00001_0 N'iPhone 14 Pro', 25990000, 1, 1, N'default.png', N'RAM 6GB, ROM 128GB, A16 Bionic', N'Tím', 10, N'detail_iphone14.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Samsung Galaxy A25', 6290000, 1, 2, N'default.png', N'RAM 6GB, ROM 128GB, Exynos 1280', N'Xanh dương', 15, N'detail_a25.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Xiaomi 13T Pro', 13990000, 1, 3, N'default.png', N'RAM 12GB, ROM 256GB, Dimensity 9200+', N'Đen', 20, N'detail_13tpro.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Oppo A78', 5990000, 1, 4, N'default.png', N'RAM 8GB, ROM 128GB, Snapdragon 680', N'Xanh', 18, N'detail_a78.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Vivo V25e', 7490000, 1, 5, N'default.png', N'RAM 8GB, ROM 128GB, Helio G99', N'Vàng', 12, N'detail_v25e.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Realme Narzo 50A', 3290000, 1, 6, N'default.png', N'RAM 4GB, ROM 64GB, Helio G85', N'Xám', 30, N'detail_narzo.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Nokia C31', 2390000, 1, 7, N'default.png', N'RAM 3GB, ROM 32GB, Unisoc 9863A1', N'Xanh lá', 25, N'detail_c31.png';
-EXEC DATN_CRE_SP_DB00001_0 N'ASUS ROG Phone 6', 18990000, 1, 8, N'default.png', N'RAM 12GB, ROM 256GB, Snapdragon 8+ Gen 1', N'Đen cam', 8, N'detail_rog6.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Dell XPS 13', 31990000, 3, 9, N'default.png', N'RAM 16GB, SSD 512GB, Intel i7 Gen12', N'Bạc', 5, N'detail_xps13.png';
-EXEC DATN_CRE_SP_DB00001_0 N'HP Envy x360', 21990000, 3, 10, N'default.png', N'RAM 16GB, SSD 512GB, AMD Ryzen 5 7530U', N'Xám', 7, N'detail_envy.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Lenovo Yoga Slim 7', 18990000, 3, 11, N'default.png', N'RAM 16GB, SSD 512GB, Ryzen 7 6800U', N'Tím', 6, N'detail_yoga.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Acer Aspire 5', 13990000, 3, 12, N'default.png', N'RAM 8GB, SSD 512GB, Intel i5 Gen11', N'Xám bạc', 10, N'detail_aspire.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Sony Xperia 5 V', 24990000, 1, 13, N'default.png', N'RAM 8GB, ROM 128GB, Snapdragon 8 Gen 2', N'Trắng', 9, N'detail_xperia5v.png';
-EXEC DATN_CRE_SP_DB00001_0 N'LG Wing 5G', 15990000, 1, 14, N'default.png', N'RAM 8GB, ROM 128GB, Snapdragon 765G', N'Bạc', 4, N'detail_wing.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Panasonic Toughpad', 18990000, 2, 15, N'default.png', N'RAM 4GB, ROM 128GB, Intel Atom Z8550', N'Đen', 2, N'detail_toughpad.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Canon EOS M50', 15990000, 13, 16, N'default.png', N'Cảm biến CMOS APS-C, 24.1MP', N'Đen', 3, N'detail_m50.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Epson L3250', 3990000, 14, 17, N'default.png', N'In màu, Wifi, tốc độ 10ppm', N'Trắng', 6, N'detail_l3250.png';
-EXEC DATN_CRE_SP_DB00001_0 N'JBL Flip 6', 2290000, 11, 18, N'default.png', N'Công suất 30W, Bluetooth 5.1', N'Xanh Navy', 13, N'detail_flip6.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Anker Soundcore 2', 1490000, 11, 19, N'default.png', N'Bluetooth, chống nước IPX7, 24h chơi nhạc', N'Đen', 11, N'detail_soundcore2.png';
-EXEC DATN_CRE_SP_DB00001_0 N'Huawei Watch GT 3', 4990000, 12, 20, N'default.png', N'Màn AMOLED 1.43", pin 14 ngày', N'Vàng hồng', 7, N'detail_gt3.png';
-GO
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'iPhone 14 Pro', @dongia = 25990000, @loai = 1, @thuonghieu = 1, @anhgoc = N'default.png', @cpu_brand = N'Apple', @cpu_model = N'A16 Bionic', @cpu_type = N'High-end', @cpu_min_speed = N'3.46 GHz', @cpu_max_speed = N'3.46 GHz', @cpu_cores = N'6', @cpu_threads = N'6', @cpu_cache = N'16MB', @gpu_brand = N'Apple', @gpu_model = N'Apple GPU', @gpu_full_name = N'Apple GPU 5-core', @gpu_memory = N'6GB', @ram = N'6GB', @storage = N'128GB', @screen = N'6.1"', @mausac = N'Tím', @soluong = 10, @anhphu = N'detail_iphone14.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Samsung Galaxy A25', @dongia = 6290000, @loai = 1, @thuonghieu = 2, @anhgoc = N'default.png', @cpu_brand = N'Samsung', @cpu_model = N'Exynos 1280', @cpu_type = N'Mid-range', @cpu_min_speed = N'2.4 GHz', @cpu_max_speed = N'2.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'2MB', @gpu_brand = N'Mali', @gpu_model = N'Mali-G68', @gpu_full_name = N'Mali-G68', @gpu_memory = N'6GB', @ram = N'6GB', @storage = N'128GB', @screen = N'6.5"', @mausac = N'Xanh dương', @soluong = 15, @anhphu = N'detail_a25.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Xiaomi 13T Pro', @dongia = 13990000, @loai = 1, @thuonghieu = 3, @anhgoc = N'default.png', @cpu_brand = N'MediaTek', @cpu_model = N'Dimensity 9200+', @cpu_type = N'Flagship', @cpu_min_speed = N'3.35 GHz', @cpu_max_speed = N'3.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'8MB', @gpu_brand = N'Mali', @gpu_model = N'Mali-G715', @gpu_full_name = N'Mali-G715 Immortalis', @gpu_memory = N'12GB', @ram = N'12GB', @storage = N'256GB', @screen = N'6.67"', @mausac = N'Đen', @soluong = 20, @anhphu = N'detail_13tpro.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Oppo A78', @dongia = 5990000, @loai = 1, @thuonghieu = 4, @anhgoc = N'default.png', @cpu_brand = N'Qualcomm', @cpu_model = N'Snapdragon 680', @cpu_type = N'Mid-range', @cpu_min_speed = N'2.4 GHz', @cpu_max_speed = N'1.9 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'4MB', @gpu_brand = N'Adreno', @gpu_model = N'Adreno 610', @gpu_full_name = N'Adreno 610', @gpu_memory = N'8GB', @ram = N'8GB', @storage = N'128GB', @screen = N'6.56"', @mausac = N'Xanh', @soluong = 18, @anhphu = N'detail_a78.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Vivo V25e', @dongia = 7490000, @loai = 1, @thuonghieu = 5, @anhgoc = N'default.png', @cpu_brand = N'MediaTek', @cpu_model = N'Helio G99', @cpu_type = N'Mid-range', @cpu_min_speed = N'2.2 GHz', @cpu_max_speed = N'2.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'2MB', @gpu_brand = N'Mali', @gpu_model = N'Mali-G57', @gpu_full_name = N'Mali-G57 MC2', @gpu_memory = N'8GB', @ram = N'8GB', @storage = N'128GB', @screen = N'6.44"', @mausac = N'Vàng', @soluong = 12, @anhphu = N'detail_v25e.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Realme Narzo 50A', @dongia = 3290000, @loai = 1, @thuonghieu = 6, @anhgoc = N'default.png', @cpu_brand = N'MediaTek', @cpu_model = N'Helio G85', @cpu_type = N'Entry', @cpu_min_speed = N'2.0 GHz', @cpu_max_speed = N'1.8 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'2MB', @gpu_brand = N'Mali', @gpu_model = N'Mali-G52', @gpu_full_name = N'Mali-G52 MC2', @gpu_memory = N'4GB', @ram = N'4GB', @storage = N'64GB', @screen = N'6.5"', @mausac = N'Xám', @soluong = 30, @anhphu = N'detail_narzo.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Nokia C31', @dongia = 2390000, @loai = 1, @thuonghieu = 7, @anhgoc = N'default.png', @cpu_brand = N'Unisoc', @cpu_model = N'9863A1', @cpu_type = N'Entry', @cpu_min_speed = N'1.6 GHz', @cpu_max_speed = N'1.2 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'1MB', @gpu_brand = N'IMG', @gpu_model = N'PowerVR GE8322', @gpu_full_name = N'PowerVR GE8322', @gpu_memory = N'3GB', @ram = N'3GB', @storage = N'32GB', @screen = N'6.75"', @mausac = N'Xanh lá', @soluong = 25, @anhphu = N'detail_c31.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'ASUS ROG Phone 6', @dongia = 18990000, @loai = 1, @thuonghieu = 8, @anhgoc = N'default.png', @cpu_brand = N'Qualcomm', @cpu_model = N'Snapdragon 8+ Gen 1', @cpu_type = N'Flagship', @cpu_min_speed = N'3.2 GHz', @cpu_max_speed = N'2.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'8MB', @gpu_brand = N'Adreno', @gpu_model = N'Adreno 730', @gpu_full_name = N'Adreno 730', @gpu_memory = N'12GB', @ram = N'12GB', @storage = N'256GB', @screen = N'6.78"', @mausac = N'Đen cam', @soluong = 8, @anhphu = N'detail_rog6.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Dell XPS 13', @dongia = 31990000, @loai = 3, @thuonghieu = 9, @anhgoc = N'default.png', @cpu_brand = N'Intel', @cpu_model = N'i7-1260P', @cpu_type = N'Laptop', @cpu_min_speed = N'2.1 GHz', @cpu_max_speed = N'4.7 GHz', @cpu_cores = N'12', @cpu_threads = N'16', @cpu_cache = N'18MB', @gpu_brand = N'Intel', @gpu_model = N'Iris Xe', @gpu_full_name = N'Iris Xe Graphics', @gpu_memory = N'16GB', @ram = N'16GB', @storage = N'512GB SSD', @screen = N'13.4"', @mausac = N'Bạc', @soluong = 5, @anhphu = N'detail_xps13.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'HP Envy x360', @dongia = 21990000, @loai = 3, @thuonghieu = 10, @anhgoc = N'default.png', @cpu_brand = N'AMD', @cpu_model = N'Ryzen 5 7530U', @cpu_type = N'Laptop', @cpu_min_speed = N'2.0 GHz', @cpu_max_speed = N'4.5 GHz', @cpu_cores = N'6', @cpu_threads = N'12', @cpu_cache = N'16MB', @gpu_brand = N'AMD', @gpu_model = N'Radeon Vega', @gpu_full_name = N'Radeon Vega 7', @gpu_memory = N'16GB', @ram = N'16GB', @storage = N'512GB SSD', @screen = N'15.6"', @mausac = N'Xám', @soluong = 7, @anhphu = N'detail_envy.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Lenovo Yoga Slim 7', @dongia = 18990000, @loai = 3, @thuonghieu = 11, @anhgoc = N'default.png', @cpu_brand = N'AMD', @cpu_model = N'Ryzen 7 6800U', @cpu_type = N'Laptop', @cpu_min_speed = N'2.7 GHz', @cpu_max_speed = N'4.7 GHz', @cpu_cores = N'8', @cpu_threads = N'16', @cpu_cache = N'16MB', @gpu_brand = N'AMD', @gpu_model = N'Radeon 680M', @gpu_full_name = N'Radeon 680M', @gpu_memory = N'16GB', @ram = N'16GB', @storage = N'512GB SSD', @screen = N'14"', @mausac = N'Tím', @soluong = 6, @anhphu = N'detail_yoga.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Acer Aspire 5', @dongia = 13990000, @loai = 3, @thuonghieu = 12, @anhgoc = N'default.png', @cpu_brand = N'Intel', @cpu_model = N'i5-1135G7', @cpu_type = N'Laptop', @cpu_min_speed = N'2.4 GHz', @cpu_max_speed = N'4.2 GHz', @cpu_cores = N'4', @cpu_threads = N'8', @cpu_cache = N'8MB', @gpu_brand = N'Intel', @gpu_model = N'Iris Xe', @gpu_full_name = N'Iris Xe Graphics', @gpu_memory = N'8GB', @ram = N'8GB', @storage = N'512GB SSD', @screen = N'15.6"', @mausac = N'Xám bạc', @soluong = 10, @anhphu = N'detail_aspire.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Sony Xperia 5 V', @dongia = 24990000, @loai = 1, @thuonghieu = 13, @anhgoc = N'default.png', @cpu_brand = N'Qualcomm', @cpu_model = N'Snapdragon 8 Gen 2', @cpu_type = N'Flagship', @cpu_min_speed = N'3.2 GHz', @cpu_max_speed = N'2.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'8MB', @gpu_brand = N'Adreno', @gpu_model = N'Adreno 740', @gpu_full_name = N'Adreno 740', @gpu_memory = N'8GB', @ram = N'8GB', @storage = N'128GB', @screen = N'6.1"', @mausac = N'Trắng', @soluong = 9, @anhphu = N'detail_xperia5v.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'LG Wing 5G', @dongia = 15990000, @loai = 1, @thuonghieu = 14, @anhgoc = N'default.png', @cpu_brand = N'Qualcomm', @cpu_model = N'Snapdragon 765G', @cpu_type = N'Mid-range', @cpu_min_speed = N'2.4 GHz', @cpu_max_speed = N'2.0 GHz', @cpu_cores = N'8', @cpu_threads = N'8', @cpu_cache = N'4MB', @gpu_brand = N'Adreno', @gpu_model = N'Adreno 620', @gpu_full_name = N'Adreno 620', @gpu_memory = N'8GB', @ram = N'8GB', @storage = N'128GB', @screen = N'6.8"', @mausac = N'Bạc', @soluong = 4, @anhphu = N'detail_wing.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Panasonic Toughpad', @dongia = 18990000, @loai = 2, @thuonghieu = 15, @anhgoc = N'default.png', @cpu_brand = N'Intel', @cpu_model = N'Atom Z8550', @cpu_type = N'Tablet', @cpu_min_speed = N'1.44 GHz', @cpu_max_speed = N'2.4 GHz', @cpu_cores = N'4', @cpu_threads = N'4', @cpu_cache = N'2MB', @gpu_brand = N'Intel', @gpu_model = N'HD Graphics', @gpu_full_name = N'HD Graphics', @gpu_memory = N'4GB', @ram = N'4GB', @storage = N'128GB', @screen = N'10.1"', @mausac = N'Đen', @soluong = 2, @anhphu = N'detail_toughpad.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Canon EOS M50', @dongia = 15990000, @loai = 13, @thuonghieu = 16, @anhgoc = N'default.png', @cpu_brand = N'Canon', @cpu_model = N'CMOS APS-C', @cpu_type = N'Camera', @cpu_min_speed = N'0', @cpu_max_speed = N'0', @cpu_cores = N'4', @cpu_threads = N'4', @cpu_cache = N'0', @gpu_brand = N'Canon', @gpu_model = N'DIGIC 8', @gpu_full_name = N'DIGIC 8', @gpu_memory = N'4GB', @ram = N'4GB', @storage = N'32GB', @screen = N'3.0"', @mausac = N'Đen', @soluong = 3, @anhphu = N'detail_m50.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Epson L3250', @dongia = 3990000, @loai = 14, @thuonghieu = 17, @anhgoc = N'default.png', @cpu_brand = N'Epson', @cpu_model = N'L3250', @cpu_type = N'Printer', @cpu_min_speed = N'0', @cpu_max_speed = N'0', @cpu_cores = N'2', @cpu_threads = N'2', @cpu_cache = N'0', @gpu_brand = N'0', @gpu_model = N'0', @gpu_full_name = N'0', @gpu_memory = N'2GB', @ram = N'2GB', @storage = N'16GB', @screen = N'No screen', @mausac = N'Trắng', @soluong = 6, @anhphu = N'detail_l3250.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'JBL Flip 6', @dongia = 2290000, @loai = 11, @thuonghieu = 18, @anhgoc = N'default.png', @cpu_brand = N'0', @cpu_model = N'0', @cpu_type = N'Speaker', @cpu_min_speed = N'0', @cpu_max_speed = N'0', @cpu_cores = N'2', @cpu_threads = N'2', @cpu_cache = N'0', @gpu_brand = N'0', @gpu_model = N'0', @gpu_full_name = N'0', @gpu_memory = N'2GB', @ram = N'2GB', @storage = N'8GB', @screen = N'No screen', @mausac = N'Xanh Navy', @soluong = 13, @anhphu = N'detail_flip6.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Anker Soundcore 2', @dongia = 1490000, @loai = 11, @thuonghieu = 19, @anhgoc = N'default.png', @cpu_brand = N'0', @cpu_model = N'0', @cpu_type = N'Speaker', @cpu_min_speed = N'0', @cpu_max_speed = N'0', @cpu_cores = N'2', @cpu_threads = N'2', @cpu_cache = N'0', @gpu_brand = N'0', @gpu_model = N'0', @gpu_full_name = N'0', @gpu_memory = N'2GB', @ram = N'2GB', @storage = N'8GB', @screen = N'No screen', @mausac = N'Đen', @soluong = 11, @anhphu = N'detail_soundcore2.png';
+EXEC DATN_CRE_SP_DB00001_0 @tensanpham = N'Huawei Watch GT 3', @dongia = 4990000, @loai = 12, @thuonghieu = 20, @anhgoc = N'default.png', @cpu_brand = N'Huawei', @cpu_model = N'GT 3', @cpu_type = N'Smartwatch', @cpu_min_speed = N'0', @cpu_max_speed = N'0', @cpu_cores = N'2', @cpu_threads = N'2', @cpu_cache = N'0', @gpu_brand = N'0', @gpu_model = N'0', @gpu_full_name = N'0', @gpu_memory = N'2GB', @ram = N'2GB', @storage = N'16GB', @screen = N'1.43"', @mausac = N'Vàng hồng', @soluong = 7, @anhphu = N'detail_gt3.png';
+-- YEU_THICH
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (5, 1);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (12, 3);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (7, 4);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (18, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (3, 8);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (9, 5);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (14, 7);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (2, 9);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (20, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (6, 10);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (11, 1);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (1, 3);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (8, 4);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (16, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (4, 8);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (10, 5);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (13, 7);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (19, 9);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (15, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (17, 10);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (2, 1);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (5, 3);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (9, 4);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (14, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (6, 8);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (12, 5);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (3, 7);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (18, 9);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (7, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (20, 10);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (1, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (11, 8);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (4, 5);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (10, 3);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (13, 4);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (16, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (15, 1);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (17, 7);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (8, 9);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (19, 10);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (6, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (3, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (7, 1);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (14, 10);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (1, 5);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (12, 6);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (20, 2);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (9, 3);
+INSERT INTO YEU_THICH (sanpham, taikhoan) VALUES (18, 7);
 /*===== CHECK P2 =====*/
 SELECT * FROM TAI_KHOAN;
 SELECT * FROM DIA_CHI;
@@ -423,8 +495,42 @@ SELECT * FROM YEU_THICH;
 SELECT * FROM sys.tables;
 GO
 /*===== VIEW =====*/
--- VIEW_CHI_TIET_SAN_PHAM
+-- VIEW_CTSP
 CREATE VIEW VIEW_CHI_TIET_SAN_PHAM AS
+SELECT 
+    sp.id AS id,
+    sp.tensanpham AS tensanpham,
+    sp.dongia AS dongia,
+    l.loai AS ten_loai,
+    th.thuonghieu AS ten_thuonghieu,
+    sp.anhgoc AS anh_goc,
+    ts.cpu_brand,
+    ts.cpu_model,
+    ts.cpu_type,
+    ts.cpu_min_speed,
+    ts.cpu_max_speed,
+    ts.cpu_cores,
+    ts.cpu_threads,
+    ts.cpu_cache,
+    ts.gpu_brand,
+    ts.gpu_model,
+    ts.gpu_full_name,
+    ts.gpu_memory,
+    ts.ram,
+    ts.storage,
+    ts.screen,
+    ts.mausac,
+    ts.soluong
+FROM SAN_PHAM sp
+JOIN SP_LOAI l ON sp.loai = l.id
+JOIN SP_THUONG_HIEU th ON sp.thuonghieu = th.id
+LEFT JOIN SP_THONG_SO ts ON sp.id = ts.sanpham;
+GO
+
+SELECT * FROM VIEW_CHI_TIET_SAN_PHAM;
+GO
+-- VIEW_SP_BY_YT
+CREATE VIEW VIEW_SP_BY_YT AS
 SELECT 
     sp.id AS id,
     sp.tensanpham AS tensanpham,
@@ -432,12 +538,34 @@ SELECT
     l.loai AS loai,
     th.thuonghieu AS thuonghieu,
     sp.anhgoc AS anhgoc,
-    ts.thongso AS thongso,
-    ts.mausac AS mausac,
-    ts.soluong AS soluong
+    ts.cpu_brand,
+    ts.cpu_model,
+    ts.cpu_type,
+    ts.cpu_min_speed,
+    ts.cpu_max_speed,
+    ts.cpu_cores,
+    ts.cpu_threads,
+    ts.cpu_cache,
+    ts.gpu_brand,
+    ts.gpu_model,
+    ts.gpu_full_name,
+    ts.gpu_memory,
+    ts.ram,
+    ts.storage,
+    ts.screen,
+    ts.mausac,
+    ts.soluong,
+    COUNT(yt.sanpham) AS so_luot_yeu_thich
 FROM SAN_PHAM sp
 JOIN SP_LOAI l ON sp.loai = l.id
 JOIN SP_THUONG_HIEU th ON sp.thuonghieu = th.id
-LEFT JOIN SP_THONG_SO ts ON sp.id = ts.sanpham;
+LEFT JOIN SP_THONG_SO ts ON sp.id = ts.sanpham
+LEFT JOIN YEU_THICH yt ON sp.id = yt.sanpham
+GROUP BY 
+    sp.id, sp.tensanpham, sp.dongia, l.loai, th.thuonghieu, sp.anhgoc,
+    ts.cpu_brand, ts.cpu_model, ts.cpu_type, ts.cpu_min_speed, ts.cpu_max_speed, ts.cpu_cores, ts.cpu_threads, ts.cpu_cache,
+    ts.gpu_brand, ts.gpu_model, ts.gpu_full_name, ts.gpu_memory, ts.ram, ts.storage, ts.screen, ts.mausac, ts.soluong;
 GO
-Select * from VIEW_CHI_TIET_SAN_PHAM;
+SELECT * 
+FROM VIEW_SP_BY_YT
+ORDER BY so_luot_yeu_thich DESC;

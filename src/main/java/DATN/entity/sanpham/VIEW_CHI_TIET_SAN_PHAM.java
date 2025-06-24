@@ -17,9 +17,24 @@ public class VIEW_CHI_TIET_SAN_PHAM {
     private Integer id;
     private String tensanpham;
     private Long dongia;
-    private String thongso;
+    private String ten_loai;
+    private String ten_thuonghieu;
+    private String anh_goc;
+    private String cpu_brand;
+    private String cpu_model;
+    private String cpu_type;
+    private String cpu_min_speed;
+    private String cpu_max_speed;
+    private String cpu_cores;
+    private String cpu_threads;
+    private String cpu_cache;
+    private String gpu_brand;
+    private String gpu_model;
+    private String gpu_full_name;
+    private String gpu_memory;
+    private String ram;
+    private String storage;
+    private String screen;
     private String mausac;
     private Integer soluong;
-    private String thuonghieu;
-    private String anhgoc;
 }

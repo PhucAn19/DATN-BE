@@ -404,7 +404,7 @@ END;
 IF NOT EXISTS (SELECT 1 FROM TAI_KHOAN WHERE email = N'testuser@email.com')
 BEGIN
     INSERT INTO TAI_KHOAN (tendangnhap, matkhau, vaitro, hoveten, sodienthoai, email, trangthai, ngaytao)
-    VALUES (N'user', N'123456', 0, N'Nguyễn Văn A', '0908888888', N'testuser@email.com', 0, GETDATE());
+    VALUES (N'user', N'123456', 0, N'Nguyễn Văn A', '0908888888', N'testuser@email.com', 1, GETDATE());
 END;
 GO
 

@@ -1,7 +1,7 @@
 package DATN.service;
 
 import DATN.dao.TaiKhoanDao;
-import DATN.entity.TaiKhoan;
+import DATN.entity.TaiKhoan.TaiKhoan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,9 @@ public class TaiKhoanService {
 
     private final TaiKhoanDao taiKhoanDao;
 
-    // === LOGIN ===
     public Map<String, Object> login(String tenDangNhap, String matKhau) {
         Map<String, Object> response = new HashMap<>();
 
-        // Cho phép đăng nhập bằng tên đăng nhập, email hoặc số điện thoại
         Optional<TaiKhoan> taiKhoanOpt = timTaiKhoanTheoThongTinDangNhap(tenDangNhap);
 
         if (taiKhoanOpt.isEmpty()) {
@@ -28,7 +26,6 @@ public class TaiKhoanService {
 
         TaiKhoan taiKhoan = taiKhoanOpt.get();
 
-        // Kiểm tra mật khẩu và trạng thái tài khoản
         if (!taiKhoan.getMatKhau().equals(matKhau)) {
             response.put("message", "Mật khẩu không đúng");
             return response;
@@ -39,52 +36,40 @@ public class TaiKhoanService {
             return response;
         }
 
-        // Đăng nhập thành công
         response.put("message", "Đăng nhập thành công");
-        response.put("vaiTro", taiKhoan.getVaiTro() ? 1 : 0); // 1 = ADMIN, 0 = USER
+        response.put("vaiTro", taiKhoan.getVaiTro() ? 1 : 0);
         response.put("hoVaTen", taiKhoan.getHoVaTen());
+        response.put("tenDangNhap", taiKhoan.getTenDangNhap()); // ✅ thêm dòng này
         return response;
     }
+
 
     // === REGISTER ===
     public Map<String, Object> register(TaiKhoan taiKhoan) {
         Map<String, Object> response = new HashMap<>();
 
-        // Kiểm tra dữ liệu đầu vào
-        if (taiKhoan.getTenDangNhap() == null || taiKhoan.getMatKhau() == null || taiKhoan.getHoVaTen() == null) {
-            response.put("message", "Vui lòng điền đầy đủ thông tin");
-            return response;
-        }
-
-        // Bắt buộc phải có email hoặc số điện thoại
-        if (taiKhoan.getEmail() == null && taiKhoan.getSoDienThoai() == null) {
-            response.put("message", "Phải cung cấp Email hoặc Số điện thoại");
-            return response;
-        }
-
-        // Kiểm tra trùng lặp thông tin
+        // Kiểm tra xem tên đăng nhập, email hoặc số điện thoại đã tồn tại chưa
         if (taiKhoanDao.findByTenDangNhap(taiKhoan.getTenDangNhap()).isPresent()) {
             response.put("message", "Tên đăng nhập đã tồn tại");
             return response;
         }
-        if (taiKhoan.getEmail() != null && taiKhoanDao.findByEmail(taiKhoan.getEmail()).isPresent()) {
-            response.put("message", "Email đã được sử dụng");
+        if (taiKhoanDao.findByEmail(taiKhoan.getEmail()).isPresent()) {
+            response.put("message", "Email đã tồn tại");
             return response;
         }
-        if (taiKhoan.getSoDienThoai() != null && taiKhoanDao.findBySoDienThoai(taiKhoan.getSoDienThoai()).isPresent()) {
-            response.put("message", "Số điện thoại đã được sử dụng");
+        if (taiKhoanDao.findBySoDienThoai(taiKhoan.getSoDienThoai()).isPresent()) {
+            response.put("message", "Số điện thoại đã tồn tại");
             return response;
         }
 
-        // Thiết lập mặc định
-        taiKhoan.setVaiTro(false); // Mặc định là USER
-        taiKhoan.setTrangThai(true); // Kích hoạt tài khoản
-        taiKhoan.setNgayTao(LocalDateTime.now());
+        // Mã hóa mật khẩu trước khi lưu (nếu cần)
+        // taiKhoan.setMatKhau(passwordEncoder.encode(taiKhoan.getMatKhau()));
 
-        // Lưu vào CSDL
+        // Lưu tài khoản vào database
         taiKhoanDao.save(taiKhoan);
-
         response.put("message", "Đăng ký thành công");
+        response.put("taiKhoan", taiKhoan); // Trả về thông tin tài khoản nếu cần
+
         return response;
     }
 

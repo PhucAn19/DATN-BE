@@ -1,5 +1,4 @@
-package DATN.entity;
-
+package DATN.entity.TaiKhoan;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +41,5 @@ public class TaiKhoan {
     @CreationTimestamp
     @Column(name = "ngaytao", nullable = false, updatable = false)
     private LocalDateTime ngayTao;
-    
-    
+
 }

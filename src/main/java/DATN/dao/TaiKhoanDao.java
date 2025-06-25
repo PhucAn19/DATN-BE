@@ -1,8 +1,9 @@
 package DATN.dao;
 
-import DATN.entity.TaiKhoan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import DATN.entity.TaiKhoan.TaiKhoan;
 
 import java.util.Optional;
 

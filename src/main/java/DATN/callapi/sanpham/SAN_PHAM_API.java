@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import DATN.dao.sanpham.SAN_PHAM_DAO;
+import DATN.dao.sanpham.SanPhamDao;
 import DATN.dto.SAN_PHAM_DTO;
-import DATN.entity.sanpham.SAN_PHAM;
+import DATN.entity.sanpham.SanPham;
 import DATN.entity.sanpham.VIEW_CHI_TIET_SAN_PHAM;
 import lombok.RequiredArgsConstructor;
 
@@ -21,17 +21,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SAN_PHAM_API {
 
-    private final SAN_PHAM_DAO dao;
-    private final DATN.service.SAN_PHAM_SER SAN_PHAM_SER;
+    private final SanPhamDao dao;
+    private final DATN.service.SanPhamService SAN_PHAM_SER;
     private final DATN.dao.view.VIEW_CHI_TIET_SAN_PHAM_DAO VIEW_CHI_TIET_SAN_PHAM_DAO;
 
     @GetMapping("/dssp")
-    public List<SAN_PHAM> getAllTaiKhoan() {
+    public List<SanPham> getAllTaiKhoan() {
         return dao.findAll();
     }
 
     @GetMapping("/{id}")
-    public SAN_PHAM geSan_PHAM(@PathVariable Integer id) {
+    public SanPham geSan_PHAM(@PathVariable Integer id) {
         return  dao.findById(id).orElse(null);
     }
     

@@ -1,8 +1,6 @@
 package DATN.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +14,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChiTietSPController {
 
-	@Autowired
-    VIEW_CHI_TIET_SAN_PHAM_DAO chiTietDao;
+    private final VIEW_CHI_TIET_SAN_PHAM_DAO chiTietDao;
 
     @GetMapping("/{id}")
     public ResponseEntity<VIEW_CHI_TIET_SAN_PHAM> getChiTietSanPham(@PathVariable("id") Integer id) {
         return chiTietDao.findById(id)
-            .map(sp -> ResponseEntity.ok(sp))
+            .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
-	
 }

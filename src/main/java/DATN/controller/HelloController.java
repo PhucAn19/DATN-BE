@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import DATN.dao.TaiKhoanDao;
-import DATN.entity.TaiKhoan;
+import DATN.entity.TaiKhoan.TaiKhoan;
 import lombok.RequiredArgsConstructor;
 
 @RestController

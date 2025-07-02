@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SAN_PHAM {
+public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -26,12 +26,12 @@ public class SAN_PHAM_API {
     private final DATN.dao.view.VIEW_CHI_TIET_SAN_PHAM_DAO VIEW_CHI_TIET_SAN_PHAM_DAO;
 
     @GetMapping("/dssp")
-    public List<SanPham> getAllTaiKhoan() {
+    public List<SanPham> getAllSanPham() {
         return dao.findAll();
     }
 
     @GetMapping("/{id}")
-    public SanPham geSan_PHAM(@PathVariable Integer id) {
+    public SanPham getSanPham(@PathVariable Integer id) {
         return  dao.findById(id).orElse(null);
     }
     

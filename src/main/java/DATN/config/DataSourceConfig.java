@@ -6,8 +6,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 import java.net.InetAddress;
-import java.net.URI;
-import java.sql.DriverManager;
 
 @Configuration
 public class DataSourceConfig {
@@ -15,7 +13,7 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         String[] urls = {
-            "jdbc:sqlserver://26.12.21.105:1433;databaseName=DATN_WebBHDT;encrypt=false",
+            "jdbc:sqlserver://26.142.28.217:1433;databaseName=DATN_WebBHDT;encrypt=false",
             "jdbc:sqlserver://localhost:1433;databaseName=DATN_WebBHDT;encrypt=false"
         };
 
@@ -24,26 +22,28 @@ public class DataSourceConfig {
 
         for (String url : urls) {
             try {
-                // 👇 Trích xuất host từ JDBC URL
-                URI uri = new URI(url.replace("jdbc:sqlserver://", "http://")); // tạm dùng http để URI parse được
-                String host = uri.getHost();
+                String host = url
+                        .replace("jdbc:sqlserver://", "")
+                        .split(";")[0]
+                        .split(":")[0];
 
-                // 👇 Kiểm tra IP hoặc hostname có sống không
                 InetAddress inet = InetAddress.getByName(host);
-                if (!inet.isReachable(1000)) { // timeout 1 giây
-                    System.out.println("⚠️ IP không khả dụng: " + host);
+                if (!inet.isReachable(1000)) {
+                    System.out.println("⚠️ Host không khả dụng: " + host);
                     continue;
                 }
 
-                // 👇 Thử kết nối DB
-                DriverManager.getConnection(url, username, password).close();
-                System.out.println("✅ Kết nối thành công với: " + url);
-
+                // Tạo DataSource và kiểm tra kết nối
                 DriverManagerDataSource dataSource = new DriverManagerDataSource();
                 dataSource.setUrl(url);
                 dataSource.setUsername(username);
                 dataSource.setPassword(password);
                 dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+                // ✅ Kiểm tra kết nối 1 lần
+                dataSource.getConnection().close();
+                System.out.println("✅ Kết nối thành công với: " + url);
+
                 return dataSource;
 
             } catch (Exception e) {

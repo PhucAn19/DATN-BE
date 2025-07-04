@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SANPHAM_DETAILS {
-    private int id_sp;
+    private Integer id_sp;
     private String id_l;
     private String id_th;
     private String id_ts;
@@ -20,8 +20,8 @@ public class SANPHAM_DETAILS {
     private int thuonghieu;
     private String anhgoc;
     private LocalDateTime ngaytao;
-    private int loaigiam;
-    private Long giamgia;
+    private Integer loaigiam;
+    private Integer giamgia;
     private LocalDateTime hangiamgia;
     private String loaiTen;
     private String thuonghieuTen;

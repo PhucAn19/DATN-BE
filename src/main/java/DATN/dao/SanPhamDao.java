@@ -1,4 +1,4 @@
-package DATN.dao.sanpham;
+package DATN.dao;
 
 import java.util.List;
 

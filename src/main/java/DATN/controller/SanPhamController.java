@@ -1,4 +1,4 @@
-package DATN.controller.sanpham;
+package DATN.controller;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import DATN.service.sanpham.sanpham_service;
 
 @RestController
 @RequestMapping("/api/san-pham")
-public class sanpham_controller {
+public class SanPhamController {
     @Autowired
     private sanpham_service sanpham_service;
 

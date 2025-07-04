@@ -10,15 +10,15 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SANPHAM_DETAILS {
     // SAN_PHAM
-    private int id;
+    private Integer id;
     private String tensanpham;
     private long dongia;
-    private int loai;
-    private int thuonghieu;
+    private Integer loai;
+    private Integer thuonghieu;
     private String anhgoc;
     private LocalDateTime ngaytao;
-    private int loaigiam;
-    private Long giamgia;
+    private Integer loaigiam;
+    private Integer giamgia;
     private LocalDateTime hangiamgia;
     // LOAI and THUONG_HIEU
     private String loaiTen;
@@ -40,9 +40,9 @@ public class SANPHAM_DETAILS {
     private String rom;
     private String screen;
     private String mausac;
-    private int soluong;
+    private Integer soluong;
     // ANH_SP
     private String diachianh;
     // GIAM_GIA
-    private int loaigiamTen;
+    private Integer loaigiamTen;
 }

@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import DATN.dao.sanpham.SanPhamDao;
+import DATN.dao.SanPhamDao;
 import DATN.dto.SAN_PHAM_DTO;
 import DATN.entity.sanpham.SanPham;
-import DATN.entity.sanpham.VIEW_CHI_TIET_SAN_PHAM;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,7 +22,6 @@ public class SAN_PHAM_API {
 
     private final SanPhamDao dao;
     private final DATN.service.SanPhamService SAN_PHAM_SER;
-    private final DATN.dao.view.VIEW_CHI_TIET_SAN_PHAM_DAO VIEW_CHI_TIET_SAN_PHAM_DAO;
 
     @GetMapping("/dssp")
     public List<SanPham> getAllSanPham() {
@@ -33,12 +31,6 @@ public class SAN_PHAM_API {
     @GetMapping("/{id}")
     public SanPham getSanPham(@PathVariable Integer id) {
         return  dao.findById(id).orElse(null);
-    }
-    
-    @GetMapping("/VIEW_CHI_TIET_SAN_PHAM")
-    public ResponseEntity<List<VIEW_CHI_TIET_SAN_PHAM>> getAllChiTiet() {
-        List<VIEW_CHI_TIET_SAN_PHAM> result = VIEW_CHI_TIET_SAN_PHAM_DAO.findAll();
-        return ResponseEntity.ok(result);
     }
     
     @PostMapping("/tao")

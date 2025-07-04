@@ -45,12 +45,12 @@ public class sanpham_repositpry implements sanpham_custom{
     }
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_1(int id) {
+    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_1(int id_sp) {
         String sql = "EXEC DATN_SEL_SP_DB00001_1 ?";
         return jdbcTemplate.query(
             sql,
             new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class),
-            id
+            id_sp
         );
     }
 

@@ -9,8 +9,11 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SANPHAM_DETAILS {
-    // SAN_PHAM
-    private int id;
+    private int id_sp;
+    private String id_l;
+    private String id_th;
+    private String id_ts;
+    private String id_gg;
     private String tensanpham;
     private long dongia;
     private int loai;
@@ -20,10 +23,8 @@ public class SANPHAM_DETAILS {
     private int loaigiam;
     private Long giamgia;
     private LocalDateTime hangiamgia;
-    // LOAI and THUONG_HIEU
     private String loaiTen;
     private String thuonghieuTen;
-    // THONG_SO
     private String cpuBrand;
     private String cpuModel;
     private String cpuType;
@@ -41,8 +42,6 @@ public class SANPHAM_DETAILS {
     private String screen;
     private String mausac;
     private int soluong;
-    // ANH_SP
     private String diachianh;
-    // GIAM_GIA
     private int loaigiamTen;
 }

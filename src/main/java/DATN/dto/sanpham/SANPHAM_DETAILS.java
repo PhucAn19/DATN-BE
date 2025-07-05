@@ -16,8 +16,8 @@ public class SANPHAM_DETAILS {
     private String id_gg;
     private String tensanpham;
     private long dongia;
-    private int loai;
-    private int thuonghieu;
+    private Integer loai;
+    private Integer thuonghieu;
     private String anhgoc;
     private LocalDateTime ngaytao;
     private Integer loaigiam;
@@ -41,7 +41,7 @@ public class SANPHAM_DETAILS {
     private String rom;
     private String screen;
     private String mausac;
-    private int soluong;
+    private Integer soluong;
     private String diachianh;
-    private int loaigiamTen;
+    private Integer loaigiamTen;
 }

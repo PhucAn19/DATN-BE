@@ -10,8 +10,8 @@ public class SANPHAM_CREATE {
     // SAN_PHAM
     private String tensanpham;
     private long dongia;
-    private int loai;
-    private int thuonghieu;
+    private Integer loai;
+    private Integer thuonghieu;
     private String anhgoc;
     // THONG_SO
     private String cpuBrand;
@@ -30,7 +30,7 @@ public class SANPHAM_CREATE {
     private String rom;
     private String screen;
     private String mausac;
-    private int soluong;
+    private Integer soluong;
     // ANH_SP
     private String diachianh;
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 public class SANPHAM_CREATE {
     // SAN_PHAM
     private String tensanpham;
-    private Integer dongia;
+    private long dongia;
     private Integer loai;
     private Integer thuonghieu;
     private String anhgoc;

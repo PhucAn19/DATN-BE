@@ -10,12 +10,12 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SANPHAM_DETAILS {
     private Integer id_sp;
-    private Integer id_l;
-    private Integer id_th;
-    private Integer id_ts;
-    private Integer id_gg;
+    private String id_l;
+    private String id_th;
+    private String id_ts;
+    private String id_gg;
     private String tensanpham;
-    private Integer dongia;
+    private long dongia;
     private Integer loai;
     private Integer thuonghieu;
     private String anhgoc;

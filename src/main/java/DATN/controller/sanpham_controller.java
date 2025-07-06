@@ -1,4 +1,4 @@
-package DATN.controller.sanpham;
+package DATN.controller;
 
 import java.util.List;
 

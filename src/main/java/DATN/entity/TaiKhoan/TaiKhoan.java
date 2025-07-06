@@ -36,7 +36,7 @@ public class TaiKhoan {
     private String email;
 
     @Column(name = "trangthai", nullable = false)
-    private Boolean trangThai = true;
+    private Boolean trangThai = false;
 
     @CreationTimestamp
     @Column(name = "ngaytao", nullable = false, updatable = false)

@@ -15,7 +15,7 @@ public class TaiKhoan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id_tk;
 
     @Column(name = "tendangnhap", nullable = false, unique = true)
     private String tenDangNhap;

@@ -1,44 +1,45 @@
 package DATN.service.sanpham;
+
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import DATN.dto.sanpham.SANPHAM_CREATE;
-import DATN.dto.sanpham.SANPHAM_DETAILS;
-import DATN.repository.sanpham.sanpham_custom;
+import DATN.dto.sanpham.DTO_CREATE;
+import DATN.dto.sanpham.DTO_DETAILS;
+import DATN.repository.sanpham.dto_custom;
 
 import org.springframework.http.*;
 import java.util.Map;
 
 @Service 
-public class sanpham_service {
+public class dto_service {
     @Autowired
-    private sanpham_custom sanpham_custom;
+    private dto_custom dto_custom;
 
-    public void DATN_CRE_SP_DB00001_0(SANPHAM_CREATE dto) {
-        sanpham_custom.DATN_CRE_SP_DB00001_0(dto);
+    public void DATN_CRE_SP_DB00001_0(DTO_CREATE dto) {
+        dto_custom.DATN_CRE_SP_DB00001_0(dto);
     }
 
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_1(int id_sp) {
-        return sanpham_custom.DATN_SEL_SP_DB00001_1(id_sp);
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_1(int id_sp) {
+        return dto_custom.DATN_SEL_SP_DB00001_1(id_sp);
     }
 
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_2() {
-        return sanpham_custom.DATN_SEL_SP_DB00001_2();
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_2() {
+        return dto_custom.DATN_SEL_SP_DB00001_2();
     }
 
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_3() {
-        return sanpham_custom.DATN_SEL_SP_DB00001_3();
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_3() {
+        return dto_custom.DATN_SEL_SP_DB00001_3();
     }
 
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_4() {
-        return sanpham_custom.DATN_SEL_SP_DB00001_4();
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_4() {
+        return dto_custom.DATN_SEL_SP_DB00001_4();
     }
 
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_5() {
-        return sanpham_custom.DATN_SEL_SP_DB00001_5();
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_5() {
+        return dto_custom.DATN_SEL_SP_DB00001_5();
     }
 
     private final String url = "http://localhost:8080/api/san-pham/tao";
@@ -77,11 +78,15 @@ public class sanpham_service {
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
 
             try {
-                ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+                restTemplate.postForEntity(url, request, String.class);
                 System.out.println("✅ Tạo thành công SP" + i);
             } catch (Exception e) {
                 System.err.println("❌ Lỗi tạo SP" + i + ": " + e.getMessage());
             }
         }
+    }
+
+    public void DATN_CRE_GY_DB00002_0(DTO_CREATE dto) {
+        dto_custom.DATN_CRE_GY_DB00002_0(dto);
     }
 }

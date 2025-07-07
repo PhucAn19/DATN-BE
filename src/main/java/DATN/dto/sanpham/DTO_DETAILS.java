@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SANPHAM_DETAILS {
+public class DTO_DETAILS {
     private Integer id_sp;
     private Integer id_l;
     private Integer id_th;

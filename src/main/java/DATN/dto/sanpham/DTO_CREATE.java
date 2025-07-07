@@ -6,14 +6,12 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SANPHAM_CREATE {
-    // SAN_PHAM
+public class DTO_CREATE {
     private String tensanpham;
     private Integer dongia;
     private Integer loai;
     private Integer thuonghieu;
     private String anhgoc;
-    // THONG_SO
     private String cpuBrand;
     private String cpuModel;
     private String cpuType;
@@ -31,6 +29,7 @@ public class SANPHAM_CREATE {
     private String screen;
     private String mausac;
     private Integer soluong;
-    // ANH_SP
     private String diachianh;
+    private String id_tk;
+    private String noidung;
 }

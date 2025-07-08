@@ -33,7 +33,7 @@ public class sanpham_controller {
     }
 
     // Lấy toàn bộ dữ liệu sản phẩm theo id
-    @GetMapping("/{id}")
+    @GetMapping("/{id_sp}")
     public ResponseEntity<List<DTO_DETAILS>> DATN_SEL_SP_DB00001_1(@PathVariable int id_sp) {
         return ResponseEntity.ok(dto_service.DATN_SEL_SP_DB00001_1(id_sp));
     }

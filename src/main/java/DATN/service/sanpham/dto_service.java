@@ -46,13 +46,14 @@ public class dto_service {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void generateProducts() {
-        for (int i = 1; i <= 1000000; i++) {
+        for (int i = 1; i <= 100; i++) {
             Map<String, Object> payload = new HashMap<>();
             payload.put("tensanpham", "iPhone 14 Pro " + i);
             payload.put("dongia", 25990000 + i * 100);
             payload.put("loai", 1);
             payload.put("thuonghieu", 1);
             payload.put("anhgoc", "default.png");
+
             payload.put("cpuBrand", "Apple");
             payload.put("cpuModel", "A16 Bionic");
             payload.put("cpuType", "High-end");
@@ -70,7 +71,8 @@ public class dto_service {
             payload.put("screen", "6.1\"");
             payload.put("mausac", "Tím");
             payload.put("soluong", 10);
-            payload.put("diachianh", "detail_iphone14.png");
+            
+            payload.put("diachianh", "https://res.cloudinary.com/dkztehmmk/image/upload/v1751717436/iphone-15-pro-max-blue-1-2-650x650_lywrtu.png");
             
 
             HttpHeaders headers = new HttpHeaders();

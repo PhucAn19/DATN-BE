@@ -17,8 +17,8 @@ public class DataSourceConfig {
                 "jdbc:sqlserver://localhost:1433;databaseName=DATN_WebBHDT;encrypt=false"
         };
 
-        String username = "sa";
-        String password = "241204";
+        String username = "DEV_BACKEND";
+        String password = "DEV";
 
         for (String url : urls) {
             try {

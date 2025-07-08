@@ -15,7 +15,7 @@ public class TaiKhoan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id_tk;
 
     @Column(name = "tendangnhap", nullable = false, unique = true)
     private String tenDangNhap;
@@ -36,7 +36,7 @@ public class TaiKhoan {
     private String email;
 
     @Column(name = "trangthai", nullable = false)
-    private Boolean trangThai = false;
+    private Boolean trangThai = true;
 
     @CreationTimestamp
     @Column(name = "ngaytao", nullable = false, updatable = false)

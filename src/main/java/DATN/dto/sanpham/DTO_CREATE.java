@@ -1,30 +1,17 @@
 package DATN.dto.sanpham;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SANPHAM_DETAILS {
-    private Integer id_sp;
-    private String id_l;
-    private String id_th;
-    private String id_ts;
-    private String id_gg;
+public class DTO_CREATE {
     private String tensanpham;
     private long dongia;
     private Integer loai;
     private Integer thuonghieu;
     private String anhgoc;
-    private LocalDateTime ngaytao;
-    private Integer loaigiam;
-    private Integer giamgia;
-    private LocalDateTime hangiamgia;
-    private String loaiTen;
-    private String thuonghieuTen;
     private String cpuBrand;
     private String cpuModel;
     private String cpuType;
@@ -43,5 +30,6 @@ public class SANPHAM_DETAILS {
     private String mausac;
     private Integer soluong;
     private String diachianh;
-    private Integer loaigiamTen;
+    private String id_tk;
+    private String noidung;
 }

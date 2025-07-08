@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import DATN.service.sanpham.sanpham_service;
+import DATN.service.sanpham.dto_service;
 
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
 
-    private final sanpham_service productGenerator;
+    private final dto_service productGenerator;
 
-    public TestController(sanpham_service productGenerator) {
+    public TestController(dto_service productGenerator) {
         this.productGenerator = productGenerator;
     }
 

@@ -1,20 +1,21 @@
 package DATN.repository.sanpham;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import DATN.dto.sanpham.SANPHAM_CREATE;
-import DATN.dto.sanpham.SANPHAM_DETAILS;
+import DATN.dto.sanpham.DTO_CREATE;
+import DATN.dto.sanpham.DTO_DETAILS;
 
 @Repository
-public class sanpham_repositpry implements sanpham_custom{
+public class dto_repositpry implements dto_custom{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void DATN_CRE_SP_DB00001_0(SANPHAM_CREATE dto) {
+    public void DATN_CRE_SP_DB00001_0(DTO_CREATE dto) {
         String sql = "EXEC DATN_CRE_SP_DB00001_0 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?";
 
         jdbcTemplate.update(sql,
@@ -45,49 +46,59 @@ public class sanpham_repositpry implements sanpham_custom{
     }
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_1(int id_sp) {
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_1(int id_sp) {
         String sql = "EXEC DATN_SEL_SP_DB00001_1 ?";
         return jdbcTemplate.query(
             sql,
-            new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class),
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class),
             id_sp
         );
     }
 
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_2() {
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_2() {
         String sql = "EXEC DATN_SEL_SP_DB00001_2";
         return jdbcTemplate.query(
             sql,
-            new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class)
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class)
         );
     }
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_3() {
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_3() {
         String sql = "EXEC DATN_SEL_SP_DB00001_3";
         return jdbcTemplate.query(
             sql,
-            new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class)
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class)
         );
     }
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_4() {
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_4() {
         String sql = "EXEC DATN_SEL_SP_DB00001_4";
         return jdbcTemplate.query(
             sql,
-            new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class)
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class)
         );
     }
 
     @Override
-    public List<SANPHAM_DETAILS> DATN_SEL_SP_DB00001_5() {
+    public List<DTO_DETAILS> DATN_SEL_SP_DB00001_5() {
         String sql = "EXEC DATN_SEL_SP_DB00001_5";
         return jdbcTemplate.query(
             sql,
-            new BeanPropertyRowMapper<>(SANPHAM_DETAILS.class)
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class)
+        );
+    }
+
+    @Override
+    public void DATN_CRE_GY_DB00002_0(DTO_CREATE dto) {
+        String sql = "EXEC DATN_CRE_SP_DB00001_0 ?, ?";
+
+        jdbcTemplate.update(sql,
+            dto.getId_tk(),
+            dto.getNoidung()  
         );
     }
 }

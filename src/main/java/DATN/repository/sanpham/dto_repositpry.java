@@ -94,7 +94,7 @@ public class dto_repositpry implements dto_custom{
 
     @Override
     public void DATN_CRE_GY_DB00002_0(DTO_CREATE dto) {
-        String sql = "EXEC DATN_CRE_SP_DB00001_0 ?, ?";
+        String sql = "EXEC DATN_CRE_GY_DB00002_0 ?, ?";
 
         jdbcTemplate.update(sql,
             dto.getId_tk(),

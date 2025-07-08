@@ -8,7 +8,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTO_CREATE {
     private String tensanpham;
-    private long dongia;
+    private Integer dongia;
     private Integer loai;
     private Integer thuonghieu;
     private String anhgoc;

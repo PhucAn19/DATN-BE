@@ -57,10 +57,8 @@ public class LoginController {
         String message = (String) response.get("message");
 
         if ("Đăng ký thành công".equals(message)) {
-            response.put("status", "success"); // thêm dòng này
             return ResponseEntity.ok(response);
         } else {
-            response.put("status", "fail"); // hoặc "error"
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -79,5 +77,4 @@ public class LoginController {
             return ResponseEntity.status(401).body(Map.of("message", "Chưa đăng nhập"));
         }
     }
-    
 }

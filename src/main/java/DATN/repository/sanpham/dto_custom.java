@@ -13,4 +13,6 @@ public interface dto_custom {
     List<DTO_DETAILS> DATN_SEL_SP_DB00001_4();
     List<DTO_DETAILS> DATN_SEL_SP_DB00001_5();
     void DATN_CRE_GY_DB00002_0(DTO_CREATE dto);
+    void DATN_UPD_SP_DB00001_6(DTO_CREATE dto);
+    List<DTO_DETAILS> DATN_SEL_GY_DB00002_1(int p_pageNo, int p_pageSize);
 }

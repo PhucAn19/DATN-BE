@@ -1,5 +1,7 @@
 package DATN.dto.sanpham;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
@@ -7,11 +9,25 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTO_CREATE {
+    // Tài khoản
+    private Integer id_tk;   
+
+    // Thông tin sản phẩm chính
+    private Integer id_sp;
     private String tensanpham;
     private Integer dongia;
     private Integer loai;
+    private String loaiTen;
     private Integer thuonghieu;
+    private String thuonghieuTen;
     private String anhgoc;
+    private LocalDateTime hangiamgia;
+    private LocalDateTime ngaytao;
+    private Integer loaigiam;
+    private String loaigiamTen;
+
+    // Thông số kỹ thuật
+    private Integer id_ts;
     private String cpuBrand;
     private String cpuModel;
     private String cpuType;
@@ -29,7 +45,29 @@ public class DTO_CREATE {
     private String screen;
     private String mausac;
     private Integer soluong;
+
+    // Ảnh phụ
+    private Integer id_a;
     private String diachianh;
-    private String id_tk;
+
+    // Góp ý
+    private Integer id_gy;
+    private Integer taikhoan;
+    private String gy_noidung;
+    private LocalDateTime gy_ngaytao;
+    private LocalDateTime gy_ngaycapnhat;
+
+    // Đánh giá
+    private Integer id_dg;
+    private Integer dg_taikhoan;
+    private Integer dg_sanpham;
     private String noidung;
+    private Integer diemso;
+
+    // Yêu thích
+    private Integer id_yt;
+    private Integer yt_sanpham;
+    private Integer yt_taikhoan;
+    private String trangthai;
+
 }

@@ -91,4 +91,12 @@ public class dto_service {
     public void DATN_CRE_GY_DB00002_0(DTO_CREATE dto) {
         dto_custom.DATN_CRE_GY_DB00002_0(dto);
     }
+
+    public void DATN_UPD_SP_DB00001_6(DTO_CREATE dto) {
+        dto_custom.DATN_UPD_SP_DB00001_6(dto);
+    }
+
+    public List<DTO_DETAILS> DATN_SEL_GY_DB00002_1(int p_pageNo, int p_pageSize) {
+        return dto_custom.DATN_SEL_GY_DB00002_1(p_pageNo, p_pageSize);
+    }
 }

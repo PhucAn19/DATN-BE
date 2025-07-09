@@ -1,4 +1,4 @@
-package DATN.dto.sanpham;
+package DATN.dto.dtodata;
 
 import java.time.LocalDateTime;
 

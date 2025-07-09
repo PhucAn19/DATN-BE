@@ -1,4 +1,4 @@
-package DATN.service.sanpham;
+package DATN.service.dtoservice;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
-import DATN.repository.sanpham.dto_custom;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
+import DATN.repository.dtorepository.dto_custom;
 
 import org.springframework.http.*;
 import java.util.Map;

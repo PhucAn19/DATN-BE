@@ -1,4 +1,4 @@
-package DATN.controller.sanpham;
+package DATN.controller.dtocontroller;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
-import DATN.service.sanpham.dto_service;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
+import DATN.service.dtoservice.dto_service;
 
 @RestController
 @RequestMapping("/api/san-pham")

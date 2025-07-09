@@ -1,9 +1,9 @@
-package DATN.repository.sanpham;
+package DATN.repository.dtorepository;
 
 import java.util.List;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
 
 public interface dto_custom {
     void DATN_CRE_SP_DB00001_0(DTO_CREATE dto);

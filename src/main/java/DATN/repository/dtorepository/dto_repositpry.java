@@ -1,4 +1,4 @@
-package DATN.repository.sanpham;
+package DATN.repository.dtorepository;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
 
 @Repository
 public class dto_repositpry implements dto_custom{

@@ -1,9 +1,9 @@
-package DATN.repository.sanpham;
+package DATN.repository.dtorepository;
 
 import java.util.List;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
 
 public interface dto_custom {
     void DATN_CRE_SP_DB00001_0(DTO_CREATE dto);
@@ -13,4 +13,6 @@ public interface dto_custom {
     List<DTO_DETAILS> DATN_SEL_SP_DB00001_4();
     List<DTO_DETAILS> DATN_SEL_SP_DB00001_5();
     void DATN_CRE_GY_DB00002_0(DTO_CREATE dto);
+    void DATN_UPD_SP_DB00001_6(DTO_CREATE dto);
+    List<DTO_DETAILS> DATN_SEL_GY_DB00002_1(int p_pageNo, int p_pageSize);
 }

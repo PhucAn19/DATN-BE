@@ -1,4 +1,4 @@
-package DATN.repository.sanpham;
+package DATN.repository.dtorepository;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
 
 @Repository
 public class dto_repositpry implements dto_custom{
@@ -99,6 +99,49 @@ public class dto_repositpry implements dto_custom{
         jdbcTemplate.update(sql,
             dto.getId_tk(),
             dto.getNoidung()  
+        );
+    }
+
+    @Override
+    public void DATN_UPD_SP_DB00001_6(DTO_CREATE dto) {
+        String sql = "EXEC DATN_UPD_SP_DB00001_6 ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+
+        jdbcTemplate.update(sql,
+            dto.getId_sp(),
+            dto.getTensanpham(),
+            dto.getDongia(),
+            dto.getLoai(),
+            dto.getThuonghieu(),
+            dto.getAnhgoc(),
+            dto.getCpuBrand(),
+            dto.getCpuModel(),
+            dto.getCpuType(),
+            dto.getCpuMinSpeed(),
+            dto.getCpuMaxSpeed(),
+            dto.getCpuCores(),
+            dto.getCpuThreads(),
+            dto.getCpuCache(),
+            dto.getGpuBrand(),
+            dto.getGpuModel(),
+            dto.getGpuFullName(),
+            dto.getGpuMemory(),
+            dto.getRam(),
+            dto.getRom(),
+            dto.getScreen(),
+            dto.getMausac(),
+            dto.getSoluong(),
+            dto.getDiachianh()
+        );
+    }
+
+    @Override
+    public List<DTO_DETAILS> DATN_SEL_GY_DB00002_1(int p_pageNo, int p_pageSize) {
+        String sql = "EXEC DATN_SEL_GY_DB00002_1 ?, ?";
+        return jdbcTemplate.query(
+            sql,
+            new BeanPropertyRowMapper<>(DTO_DETAILS.class),
+            p_pageNo,
+            p_pageSize
         );
     }
 }

@@ -1,4 +1,4 @@
-package DATN.controller.sanpham;
+package DATN.controller.dtocontroller;
 
 import java.util.List;
 
@@ -7,17 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
-import DATN.service.sanpham.dto_service;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
+import DATN.service.dtoservice.dto_service;
 
 @RestController
 @RequestMapping("/api/san-pham")
-public class sanpham_controller {
+public class dto_controller {
     @Autowired
     private dto_service dto_service;
 
@@ -33,7 +35,7 @@ public class sanpham_controller {
     }
 
     // Lấy toàn bộ dữ liệu sản phẩm theo id
-    @GetMapping("/{id}")
+    @GetMapping("/{id_sp}")
     public ResponseEntity<List<DTO_DETAILS>> DATN_SEL_SP_DB00001_1(@PathVariable int id_sp) {
         return ResponseEntity.ok(dto_service.DATN_SEL_SP_DB00001_1(id_sp));
     }
@@ -71,6 +73,23 @@ public class sanpham_controller {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Thêm góp ý thất bại: " + e.getMessage());
         }
+    }
+
+    // Cập nhật sản phẩm
+    @PutMapping("/cap-nhat")
+    public ResponseEntity<String> DATN_UPD_SP_DB00001_6(@RequestBody DTO_CREATE dto) {
+        try {
+            dto_service.DATN_UPD_SP_DB00001_6(dto);
+            return ResponseEntity.ok("Cập nhật sản phẩm thành công!");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Cập nhật sản phẩm thất bại: " + e.getMessage());
+        }
+    }
+
+    // Lấy toàn bộ dữ liệu góp ý
+    @GetMapping("/gop-y")
+    public ResponseEntity<List<DTO_DETAILS>> DATN_SEL_GY_DB00002_1(@RequestParam  int p_pageNo, @RequestParam  int p_pageSize) {
+        return ResponseEntity.ok(dto_service.DATN_SEL_GY_DB00002_1(p_pageNo, p_pageSize));
     }
 }
 /*

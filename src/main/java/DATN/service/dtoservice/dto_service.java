@@ -1,4 +1,4 @@
-package DATN.service.sanpham;
+package DATN.service.dtoservice;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import DATN.dto.sanpham.DTO_CREATE;
-import DATN.dto.sanpham.DTO_DETAILS;
-import DATN.repository.sanpham.dto_custom;
+import DATN.dto.dtodata.DTO_CREATE;
+import DATN.dto.dtodata.DTO_DETAILS;
+import DATN.repository.dtorepository.dto_custom;
 
 import org.springframework.http.*;
 import java.util.Map;
@@ -46,13 +46,14 @@ public class dto_service {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void generateProducts() {
-        for (int i = 1; i <= 1000000; i++) {
+        for (int i = 1; i <= 100; i++) {
             Map<String, Object> payload = new HashMap<>();
             payload.put("tensanpham", "iPhone 14 Pro " + i);
             payload.put("dongia", 25990000 + i * 100);
             payload.put("loai", 1);
             payload.put("thuonghieu", 1);
             payload.put("anhgoc", "default.png");
+
             payload.put("cpuBrand", "Apple");
             payload.put("cpuModel", "A16 Bionic");
             payload.put("cpuType", "High-end");
@@ -70,7 +71,8 @@ public class dto_service {
             payload.put("screen", "6.1\"");
             payload.put("mausac", "Tím");
             payload.put("soluong", 10);
-            payload.put("diachianh", "detail_iphone14.png");
+            
+            payload.put("diachianh", "https://res.cloudinary.com/dkztehmmk/image/upload/v1751717436/iphone-15-pro-max-blue-1-2-650x650_lywrtu.png");
             
 
             HttpHeaders headers = new HttpHeaders();
@@ -88,5 +90,13 @@ public class dto_service {
 
     public void DATN_CRE_GY_DB00002_0(DTO_CREATE dto) {
         dto_custom.DATN_CRE_GY_DB00002_0(dto);
+    }
+
+    public void DATN_UPD_SP_DB00001_6(DTO_CREATE dto) {
+        dto_custom.DATN_UPD_SP_DB00001_6(dto);
+    }
+
+    public List<DTO_DETAILS> DATN_SEL_GY_DB00002_1(int p_pageNo, int p_pageSize) {
+        return dto_custom.DATN_SEL_GY_DB00002_1(p_pageNo, p_pageSize);
     }
 }

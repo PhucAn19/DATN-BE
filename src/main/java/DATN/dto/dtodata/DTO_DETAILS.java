@@ -50,9 +50,9 @@ public class DTO_DETAILS {
     // Góp ý
     private Integer id_gy;
     private Integer taikhoan;
+    private String hoVaTen; // Tên người dùng từ bảng tài khoản
     private String gy_noidung;
-    private LocalDateTime gy_ngaytao;
-    private LocalDateTime gy_ngaycapnhat;
+    private LocalDateTime ngay_gui;
 
     // Đánh giá
     private Integer id_dg;

@@ -13,7 +13,7 @@ import DATN.repository.dtorepository.dto_custom;
 import org.springframework.http.*;
 import java.util.Map;
 
-@Service 
+@Service
 public class dto_service {
     @Autowired
     private dto_custom dto_custom;
@@ -71,9 +71,9 @@ public class dto_service {
             payload.put("screen", "6.1\"");
             payload.put("mausac", "Tím");
             payload.put("soluong", 10);
-            
-            payload.put("diachianh", "https://res.cloudinary.com/dkztehmmk/image/upload/v1751717436/iphone-15-pro-max-blue-1-2-650x650_lywrtu.png");
-            
+
+            payload.put("diachianh",
+                    "https://res.cloudinary.com/dkztehmmk/image/upload/v1751717436/iphone-15-pro-max-blue-1-2-650x650_lywrtu.png");
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

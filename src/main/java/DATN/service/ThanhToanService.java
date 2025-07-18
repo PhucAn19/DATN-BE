@@ -78,6 +78,7 @@ public class ThanhToanService {
                     response.put("hoaDonId", savedHoaDon.getId());
                     response.put("payUrl", momoResponse.getPayUrl());
                     response.put("qrCodeUrl", momoResponse.getQrCodeUrl());
+                    response.put("orderId", orderId);
                 } else {
                     response.put("success", false);
                     response.put("message", "Lỗi tạo thanh toán MoMo: " + momoResponse.getMessage());

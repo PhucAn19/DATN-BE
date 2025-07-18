@@ -32,6 +32,8 @@ public class ThanhToanController {
         Map<String, Object> result = thanhToanService.taoHoaDon(thanhToanDTO);
 
         if ((Boolean) result.get("success")) {
+            // Xóa giỏ hàng sau khi tạo hóa đơn thành công
+            session.removeAttribute("gioHang");
             return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.badRequest().body(result);

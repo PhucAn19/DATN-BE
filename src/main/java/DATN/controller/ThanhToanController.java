@@ -49,45 +49,6 @@ public class ThanhToanController {
         return ResponseEntity.ok(danhSachHoaDon);
     }
 
-    @PostMapping("/momo/notify")
-    public ResponseEntity<?> momoNotify(@RequestBody Map<String, Object> payload) {
-        try {
-            String orderId = (String) payload.get("orderId");
-            Integer resultCode = (Integer) payload.get("resultCode");
-            
-            String trangThai = (resultCode == 0) ? "SUCCESS" : "FAILED";
-            Map<String, Object> result = thanhToanService.xacNhanThanhToan(orderId, trangThai);
-
-            return ResponseEntity.ok(result);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Lỗi xử lý callback MoMo"));
-        }
-    }
-
-    @GetMapping("/momo/return")
-    public ResponseEntity<?> momoReturn(@RequestParam Map<String, String> params) {
-        try {
-            String orderId = params.get("orderId");
-            String resultCode = params.get("resultCode");
-            
-            String trangThai = "0".equals(resultCode) ? "SUCCESS" : "FAILED";
-            Map<String, Object> result = thanhToanService.xacNhanThanhToan(orderId, trangThai);
-
-            if ("SUCCESS".equals(trangThai)) {
-                return ResponseEntity.ok(Map.of(
-                    "message", "Thanh toán thành công",
-                    "orderId", orderId
-                ));
-            } else {
-                return ResponseEntity.badRequest().body(Map.of(
-                    "message", "Thanh toán thất bại",
-                    "orderId", orderId
-                ));
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Lỗi xử lý kết quả thanh toán"));
-        }
-    }
 
     @GetMapping("/chi-tiet/{hoaDonId}")
     public ResponseEntity<?> chiTietHoaDon(@PathVariable Integer hoaDonId, HttpSession session) {
